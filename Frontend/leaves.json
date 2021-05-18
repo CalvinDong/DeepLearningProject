@@ -1,0 +1,16 @@
+{
+  "Leaves": [
+    {
+      "name": "Eucalyptus",
+      "medicinal": true,
+      "description": "A leaf from the eucalyptus plant",
+      "medicinal_properties": "smells pretty good"
+    },
+    {
+      "name": "Wattle",
+      "medicinal": false,
+      "description": "A leaf from the eucalyptus plant",
+      "medicinal_properties": "smells pretty good"
+    }
+  ]
+}
