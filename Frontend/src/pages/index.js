@@ -1,17 +1,17 @@
 import React, {useState, useEffect, useRef} from "react";
 import Webcam from "react-webcam";
 
-import { Button } from 'rsuite';
-import { Drawer } from 'rsuite';
+import { Button, Drawer, Placeholder, FlexboxGrid } from 'rsuite';
 import { Grid, Row, Col } from 'rsuite';
-import { Placeholder } from 'rsuite';
-import { FlexboxGrid } from 'rsuite';
+
+import InfoCard from "../components/InfoCard.js"
 
 const { Paragraph } = Placeholder;
 
 
 export default function HomePage() {
   const [showState, setShowState] = useState(true);
+  const [leafState, useLeafState] = useState(null);
   const [imgSrc, setImgSrc] = useState(null);
   const webcamRef = useRef(null);
 
@@ -19,6 +19,10 @@ export default function HomePage() {
     const imageSrc = webcamRef.current.getScreenshot();
     setImgSrc(imageSrc);
   }, [webcamRef, setImgSrc]);
+
+  const sendData = async () => {
+    // Send data here, then set leafState to data
+  }
 
   const close = () => {
     setShowState(false);
@@ -50,17 +54,7 @@ export default function HomePage() {
           </Grid>
       </FlexboxGrid.Item>
       <FlexboxGrid.Item colspan={3} style={{ minHeight: "100vh", minWidth: "30vw", borderRadius: 25 , border: '3px solid rgba(50, 50, 25, 1)'}}>
-        <h1 style={{color: "#4CAF50"}}> Leaf Name </h1>
-        <div style={{justifyContent: "center"}}>
-          <Paragraph style={{}}rows={0} style={{ padding: 30 }} graph="image" />
-          <Paragraph rows={5} style={{ padding: 30, paddingTop: 30 }}/>
-          <Paragraph rows={5} style={{ padding: 30, paddingTop: 30 }}/>
-          <Paragraph rows={5} style={{ padding: 30, paddingTop: 30 }}/>
-          <Paragraph rows={5} style={{ padding: 30, paddingTop: 30 }}/>
-          <Paragraph rows={5} style={{ padding: 30, paddingTop: 30 }}/>
-          <Paragraph style={{ padding: 30, paddingTop: 30 }}/>
-        </div>
-        
+        <InfoCard/>
       </FlexboxGrid.Item>
       <Drawer
         show={showState}
