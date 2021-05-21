@@ -19,7 +19,7 @@ const dummyData = Leaves;
 export default function HomePage() {
   const [showState, setShowState] = useState(true);
   const [leafState, useLeafState] = useState(null);
-  const [exampleState, useExampleState] = useState({dta: Example2})
+  const [description, setDescriptionState] = useState(null)
   const [imgSrc, setImgSrc] = useState(null);
   const webcamRef = useRef(null);
   console.log(Leaves)
@@ -27,13 +27,15 @@ export default function HomePage() {
   const capture = React.useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImgSrc(imageSrc);
-    console.log(imgSrc);
-    sendData()
+    console.log(imageSrc)
+    console.log(imgSrc)
+    sendData(imageSrc)
   }, [webcamRef, setImgSrc]);
 
-  const sendData = async () => {
+  const sendData = async (imageSrc) => {
     //console.log(exampleState)
-    const res = await axios.post(`${BACKEND}/posty`, {dta: imgSrc})
+    const res = await axios.post(`${BACKEND}/posty`, {dta: imageSrc})
+    setDescriptionState(res.data)
     console.log(res)
     // Send data here, then set leafState to data
   }
@@ -68,7 +70,7 @@ export default function HomePage() {
           </Grid>
       </FlexboxGrid.Item>
       <FlexboxGrid.Item colspan={3} style={{ minHeight: "100vh", minWidth: "30vw", borderRadius: 25 , border: '3px solid rgba(50, 50, 25, 1)'}}>
-        <InfoCard/>
+        <InfoCard description={description}/>
       </FlexboxGrid.Item>
       <Drawer
         show={showState}

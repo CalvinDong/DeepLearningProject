@@ -1,0 +1,28 @@
+{
+  "weather": [
+    {
+      "name": "cloudy",
+      "medicinal": false,
+      "description": "Weather with lots of clouds. Blocks out sunlight. May indicate rain in the near future",
+      "medicinal_properties": "Air feels pretty stuffy tbh"
+    },
+    {
+      "name": "rain",
+      "medicinal": true,
+      "description": "Clouds, but condensed. Very wet. Drops water everywhere",
+      "medicinal_properties": "smells pretty good"
+    },
+    {
+      "name": "shine",
+      "medicinal": true,
+      "description": "Pure sun. Best weather for the outside",
+      "medicinal_properties": "Vitamin D"
+    },
+    {
+      "name": "sunrise",
+      "medicinal": true,
+      "description": "Looks beautiful",
+      "medicinal_properties": "looks very nice"
+    }
+  ]
+}

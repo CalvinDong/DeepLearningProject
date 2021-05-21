@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
+import json
 import base64
 
 def getClass(prediction):
@@ -13,15 +13,16 @@ def getClass(prediction):
   if (prediction[0][3]):
     return 'sunrise'
 
+def getJSON(label):
+  with open('example.json') as json_file:
+    data = json.load(json_file)
+    for p in data["weather"]:
+      if (label == p["name"]):
+        return p
+
 def predictImage(new_model, image):
-    #img = cv2.imread('shine123.jpg')
-    #print(image)
-    #message_bytes = base64.b64decode(image + b'==')
     message_bytes = base64.b64decode(bytes(image, 'utf-8') + b'===')
-    #base64_message = message_bytes.decode('ascii')
     nparr = np.fromstring(message_bytes, np.uint8)
-    #img = cv2.imread(nparr)
-    #print(nparr)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = cv2.resize(img,(224,224)) 
@@ -37,4 +38,6 @@ def predictImage(new_model, image):
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     cv2.imwrite(filename, img)
 
-    return label
+    
+
+    return getJSON(label)

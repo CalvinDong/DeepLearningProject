@@ -14,8 +14,7 @@ app.config.from_object(__name__)
 new_model = tensorflow.keras.models.load_model('saved_model2/my_model2')
 
 # enable CORS
-CORS(app)
-
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # sanity check route
 @app.route('/ping', methods=['GET'])
@@ -26,14 +25,9 @@ def ping_pong():
 @app.route('/posty', methods=['POST'])
 @cross_origin()
 def postThis():
-    response = jsonify("lol")
-    response.headers.add('Access-Control-Allow-Origin', '*')
     dictData = json.loads(request.data)
-    #print(dictData)
     thing = predictImage(new_model, dictData["dta"][23:])
-    print(thing)
-    return response
-    #return jsonify(thing)
+    return jsonify(thing)
 
 if __name__ == '__main__':
     app.run()
