@@ -1,26 +1,40 @@
 import React, {useState, useEffect, useRef} from "react";
 import Webcam from "react-webcam";
+import axios from "axios"
 
 import { Button, Drawer, Placeholder, FlexboxGrid } from 'rsuite';
 import { Grid, Row, Col } from 'rsuite';
 
 import InfoCard from "../components/InfoCard.js"
+import Leaves from "../leaves.json"
 
+import Example from "../images/shine123.jpg"
+import Example2 from "../images/rain1.jpg"
+
+const BACKEND = "http://127.0.0.1:5000";
 const { Paragraph } = Placeholder;
 
+const dummyData = Leaves;
 
 export default function HomePage() {
   const [showState, setShowState] = useState(true);
   const [leafState, useLeafState] = useState(null);
+  const [exampleState, useExampleState] = useState({dta: Example2})
   const [imgSrc, setImgSrc] = useState(null);
   const webcamRef = useRef(null);
+  console.log(Leaves)
 
   const capture = React.useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImgSrc(imageSrc);
+    console.log(imgSrc);
+    sendData()
   }, [webcamRef, setImgSrc]);
 
   const sendData = async () => {
+    //console.log(exampleState)
+    const res = await axios.post(`${BACKEND}/posty`, {dta: imgSrc})
+    console.log(res)
     // Send data here, then set leafState to data
   }
 
@@ -48,7 +62,7 @@ export default function HomePage() {
           </Row>
           <Row>
             <Col>
-              <Button style={{padding: 30}} onClick={open}>Take Picture</Button>
+              <Button style={{padding: 30}} onClick={capture}>Take Picture</Button>
             </Col>
           </Row>
           </Grid>
