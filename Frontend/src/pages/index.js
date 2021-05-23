@@ -4,6 +4,7 @@ import axios from "axios"
 
 import { Button, Drawer, Placeholder, FlexboxGrid } from 'rsuite';
 import { Grid, Row, Col } from 'rsuite';
+import { Card } from '@material-ui/core'
 
 import InfoCard from "../components/InfoCard.js"
 import Leaves from "../leaves.json"
@@ -54,12 +55,15 @@ export default function HomePage() {
         <Grid fluid style={{margin: "auto"}}>
           <Row>
             <Col>
+            <Card>
               <Webcam
                 audio={false}
                 ref={webcamRef}
                 screenshotFormat="image/jpeg"
                 style={{minWidth: "50vw", paddingTop: "5vh", borderRadius: 25 }}
               />
+            </Card>
+              
             </Col>
           </Row>
           <Row>
