@@ -3,8 +3,8 @@ import Webcam from "react-webcam";
 import axios from "axios"
 
 import { Button, Drawer, Placeholder, FlexboxGrid } from 'rsuite';
-import { Grid, Row, Col } from 'rsuite';
-import { Card } from '@material-ui/core'
+//import { Grid, Row, Col } from 'rsuite';
+import { Grid, Card } from '@material-ui/core'
 
 import InfoCard from "../components/InfoCard.js"
 import Leaves from "../leaves.json"
@@ -50,60 +50,27 @@ export default function HomePage() {
   }
 
   return(
-    <FlexboxGrid justify="space-around">
-      <FlexboxGrid.Item colspan={3} style={{ minHeight: "100vh", minWidth: "60vw", borderRadius: 25 , border: '3px solid rgba(50, 50, 25, 1)'}}>
-        <Grid fluid style={{margin: "auto"}}>
-          <Row>
-            <Col>
-            <Card>
-              <Webcam
-                audio={false}
-                ref={webcamRef}
-                screenshotFormat="image/jpeg"
-                style={{minWidth: "50vw", paddingTop: "5vh", borderRadius: 25 }}
-              />
-            </Card>
-              
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Button style={{padding: 30}} onClick={capture}>Take Picture</Button>
-            </Col>
-          </Row>
-          </Grid>
-      </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={3} style={{ minHeight: "100vh", minWidth: "30vw", borderRadius: 25 , border: '3px solid rgba(50, 50, 25, 1)'}}>
-        <InfoCard description={description}/>
-      </FlexboxGrid.Item>
-      <Drawer
-        show={showState}
-        onHide={close}
-        backdrop={true}
-      >
-        <Drawer.Header style={{justifyContent: "center", backgroundColor: "#2d2d2d", alignContent: "right"}}>
-          <div style={{width: 200, display: "grid", justifyContent: "right"}}>
-            <div style={{color:"#fff", background: "#2d2d2d", padding: 12, display: "inline-block"}}>
-              <header style={{color: "#f6f"}}>Mango Leaf</header>
-            </div>
-          </div>
-        </Drawer.Header>
-        <Drawer.Body>
-          <Grid fluid>
-          <Row gutter={16}>
-              <Col xs={4}>
-                <Paragraph style={{ marginTop: 30 }} graph="image" />
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col xs={4}>
-                <Paragraph style={{ marginTop: 30 }}/>
-              </Col>
-            </Row>
-          </Grid>
-        </Drawer.Body>
-      </Drawer>
-      </FlexboxGrid>
-    
+    <Grid container spacing={3} >
+      <Grid item xs container direction="column">
+        <Grid item>
+          <Card>
+            <Webcam
+              audio={false}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              style={{minWidth: "50vw", paddingTop: "5vh", borderRadius: 25 }}
+            />
+          </Card>
+        </Grid>
+        <Grid item>
+          <Button style={{padding: 30}} onClick={capture}>Take Picture</Button>
+        </Grid>
+      </Grid>
+      <Grid item>
+        <Card>
+          <InfoCard description={description}/>
+        </Card>
+      </Grid>
+    </Grid>
   )
 }
