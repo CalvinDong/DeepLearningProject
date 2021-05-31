@@ -38,6 +38,4 @@ def predictImage(new_model, image):
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     cv2.imwrite(filename, img)
 
-    
-
     return getJSON(label)
