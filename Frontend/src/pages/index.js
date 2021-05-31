@@ -5,6 +5,7 @@ import axios from "axios"
 import { Button, Drawer, Placeholder, FlexboxGrid } from 'rsuite';
 //import { Grid, Row, Col } from 'rsuite';
 import { Grid, Card } from '@material-ui/core'
+import Paper from '@material-ui/core/Paper';
 
 import InfoCard from "../components/InfoCard.js"
 import Leaves from "../leaves.json"
@@ -50,25 +51,22 @@ export default function HomePage() {
   }
 
   return(
-    <Grid container spacing={3} >
-      <Grid item xs container direction="column">
-        <Grid item>
-          <Card>
-            <Webcam
-              audio={false}
-              ref={webcamRef}
-              screenshotFormat="image/jpeg"
-              style={{minWidth: "50vw", paddingTop: "5vh", borderRadius: 25 }}
-            />
-          </Card>
-        </Grid>
-        <Grid item>
-          <Button style={{padding: 30}} onClick={capture}>Take Picture</Button>
-        </Grid>
+    <Grid container alignItems="center">
+      <Grid item xs container direction="row" justify="space-around">
+        <Card style={{maxWidth: "50vw", minHeight: "100vh"}}>
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+          />
+          <Grid item>
+            <Button style={{padding: 30}} onClick={capture}>Take Picture</Button>
+          </Grid>
+        </Card>
       </Grid>
-      <Grid item>
-        <Card>
-          <InfoCard description={description}/>
+      <Grid item xs>
+        <Card style={{maxWidth: "50vw",  minHeight: "100vh", borderRadius: 25 }}>
+          <InfoCard description={description} />
         </Card>
       </Grid>
     </Grid>

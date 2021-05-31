@@ -17,6 +17,11 @@ from object_detection.utils import ops as utils_ops
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
 
+def getJSON(label):
+  with open('example.json') as json_file:
+    data = json.load(json_file)
+    return "p"
+
 def loadAsNumpy(image):
   message_bytes = base64.b64decode(bytes(image, 'utf-8') + b'===')
   nparr = np.fromstring(message_bytes, np.uint8)
@@ -77,8 +82,19 @@ def get_num_classes(pbtxt_fname):
     category_index = label_map_util.create_category_index(categories)
     return len(category_index.keys())
 
+def lookup(label):
+  for p in data["weather"]:
+      if (label == p["name"]):
+        return p
+
+
+
+
 pb_fname = os.path.abspath("C:/Users/CalvinDong/source/repos/Deep Learning Project/Backend/custom/frozen_inference_graph.pb")
 assert os.path.isfile(pb_fname), '`{}` not exist'.format(pb_fname)
+
+with open('example.json') as json_file:
+    data = json.load(json_file)
 
 PATH_TO_MODEL = 'custom/saved_model'
 PATH_TO_LABELS = 'label_map.pbtxt'
@@ -97,8 +113,7 @@ with detection_graph.as_default():
 
 model = tf.compat.v1.saved_model.load_v2(PATH_TO_MODEL)
 label_map = label_map_util.load_labelmap(PATH_TO_LABELS)
-categories = label_map_util.convert_label_map_to_categories(
-  label_map, max_num_classes=num_classes, use_display_name=True)
+categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=num_classes, use_display_name=True)
 category_index = label_map_util.create_category_index(categories)
 
 # configuration
@@ -110,9 +125,6 @@ app.config.from_object(__name__)
 #new_model = tf.keras.models.load_model('saved_model2/my_model2')
 #model = tf.saved_model.load(PATH_TO_MODEL)
 print("going to load")
-#detect_fn = model.signatures['serving_default']
-#category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS,use_display_name=True)
-print("test this \n")
 
 # enable CORS
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -130,7 +142,9 @@ def postThis():
     #thing = predictImage(new_model, dictData["dta"][23:])
     image_np = loadAsNumpy(dictData["dta"][23:])
     output_dict = run_inference_for_single_image(image_np, detection_graph)
-    print(output_dict['detection_scores'])
+    output_dict['detection_boxes'] = output_dict['detection_boxes'][:][[0]]
+    output_dict['detection_classes'] = output_dict['detection_classes'][:][[0]]
+    output_dict['detection_scores'] = output_dict['detection_scores'][:][[0]]
 
     vis_util.visualize_boxes_and_labels_on_image_array(
         image_np,
@@ -143,11 +157,14 @@ def postThis():
         min_score_thresh=.01,
         agnostic_mode=False)
 
+    prediction = category_index[output_dict['detection_classes'][0]]
+    print(prediction["name"])
+    look = lookup(prediction["name"])
+    print(look)
     filename = 'savedImage(Obj).jpg'
     img = cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR)
     cv2.imwrite(filename, img)
-    #thing2 = detectObject(model, dictData["dta"][23:], tf, vis_util, category_index, detection_graph)
-    return jsonify("thing")
+    return jsonify(look)
 
 if __name__ == '__main__':
     app.run()

@@ -27,6 +27,13 @@
       "description": "Looks beautiful",
       "medicinal_properties": "looks very nice",
       "image": "https://raw.githubusercontent.com/CalvinDong/42028-Assignment-2/blob/main/Input/sunrise/sunrise150.jpg"
+    },
+    {
+      "name": "Banana",
+      "medicinal": true,
+      "description": "Full of potassium and very healthy for people",
+      "medicinal_properties": "looks very nice",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg"
     }
   ]
 }

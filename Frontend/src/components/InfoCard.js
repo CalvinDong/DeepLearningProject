@@ -28,7 +28,7 @@ export default function InfoCard(props){
     return (
       <>
         <h1 style={{color: "#4CAF50"}}> {description.name} </h1>
-        <img src={description.image} minWidth="5vw" minHeight="5vh"></img>
+        <img src={description.image} style={{maxWidth: "30vw", maxHeight: "30vh"}}></img>
         <div style={{justifyContent: "center"}}/>
         <p>{description.description}</p>
         <p>{description.medicinal_properties}</p>
@@ -38,13 +38,10 @@ export default function InfoCard(props){
 
   return(
     <>
-    <div>
       {description
         ? <LeafDesc/>
         : <PlaceholderPara/>
       }
-    </div>
-      
     </>
   )
 }
