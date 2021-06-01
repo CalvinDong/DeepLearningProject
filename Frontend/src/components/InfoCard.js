@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Drawer, Placeholder, FlexboxGrid } from 'rsuite';
+import { Typography } from '@material-ui/core'
 import { Grid, Row, Col } from 'rsuite';
 
 const { Paragraph } = Placeholder;
@@ -29,8 +30,8 @@ export default function InfoCard(props){
         <h1 style={{color: "#4CAF50"}}> {description.name} </h1>
         <img src={description.image} style={{maxWidth: "20vw", maxHeight: "20vh"}}></img>
         <div style={{justifyContent: "center"}}/>
-        <p>{description.description}</p>
-        <p>{description.medicinal_properties}</p>
+        <Typography>{description.description}</Typography>
+        <Typography>{description.medicinal_properties}</Typography>
       </>
     )
   }
