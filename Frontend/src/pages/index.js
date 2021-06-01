@@ -35,11 +35,21 @@ export default function HomePage() {
   }, [webcamRef, setImgSrc]);
 
   const sendData = async (imageSrc) => {
-    //console.log(exampleState)
     const res = await axios.post(`${BACKEND}/posty`, {dta: imageSrc})
     setDescriptionState(res.data)
     console.log(res)
     // Send data here, then set leafState to data
+  }
+
+
+  const handleButtonPress = () => {
+    console.log("shit")
+  }
+  
+  const handleKeypress = (e) => {
+    if (e.keyCode === 13) {
+      handleButtonPress();
+    }
   }
 
   const close = () => {
@@ -53,21 +63,24 @@ export default function HomePage() {
   return(
     <Grid container alignItems="center">
       <Grid item xs container direction="row" justify="space-around">
-        <Card style={{maxWidth: "50vw", minHeight: "100vh"}}>
+        <Paper elevation={3} style={{maxWidth: "45vw", minHeight: "90vh"}}>
           <Webcam
             audio={false}
+            width="1280px"
+            height="720px"
             ref={webcamRef}
             screenshotFormat="image/jpeg"
+            style={{maxWidth: "45vw", minHeight: "90vh"}}
           />
           <Grid item>
-            <Button style={{padding: 30}} onClick={capture}>Take Picture</Button>
+            <Button style={{padding: 20}} onClick={capture} onClick={handleButtonPress} onKeyPress={handleKeypress}>Take Picture</Button>
           </Grid>
-        </Card>
+        </Paper>
       </Grid>
       <Grid item xs>
-        <Card style={{maxWidth: "50vw",  minHeight: "100vh", borderRadius: 25 }}>
+        <Paper elevation ={3} style={{maxWidth: "45vw",  minHeight: "90vh", paddingTop: 30 }}>
           <InfoCard description={description} />
-        </Card>
+        </Paper>
       </Grid>
     </Grid>
   )
