@@ -12,7 +12,142 @@ import {loadGraphModel} from '@tensorflow/tfjs-converter';
 
 const BACKEND = "http://127.0.0.1:5000";
 const { Paragraph } = Placeholder;
-const threshold = 0.3;
+const threshold = 0.2;
+
+let classesDir = {
+  1: {
+      name: 'Medicinal:Alpinia-Galanga',
+      id: 1,
+  },
+  2: {
+      name: 'Medicinal:Amaranthus-Viridis',
+      id: 2,
+  },
+  3: {
+    name: 'Non-Medicinal:Areca-Palm',
+    id: 3,
+  },
+  4: {
+    name: 'Medicinal:Artocarpus-Heterophyllus',
+    id: 4,
+  },
+  5: {
+    name: 'Medicinal:Azadirachta-Indica',
+    id: 5,
+  },
+  6: {
+    name: 'Medicinal:Basella-Alba',
+    id: 6,
+  },
+  7: {
+    name: 'Non-Medicinal:Bonsai',
+    id: 7,
+  },
+  8: {
+    name: 'Medicinal:Brassica-Juncea',
+    id: 8,
+  },
+  9: {
+    name: 'Medicinal:Carissa-Carandas',
+    id: 9,
+  },
+  10: {
+    name: 'Medicinal:Citrus-Limon',
+    id: 10,
+  },
+  11: {
+    name: 'Medicinal:Eucalyptus',
+    id: 11,
+  },
+  12: {
+    name: 'Medicinal:Ficus-Auriculata',
+    id: 12,
+  },
+  13: {
+    name: 'Medicinal:Ficus-Religiosa',
+    id: 13,
+  },
+  14: {
+    name: 'Medicinal:Hibiscus-Rosa-sinensis',
+    id: 14,
+  },
+  15: {
+    name: 'Medicinal:Jasminum',
+    id: 15,
+  },
+  16: {
+    name: 'Medicinal:Mangifera-Indica',
+    id: 16,
+  },
+  17: {
+    name: 'Medicinal:Mentha',
+    id: 17,
+  },
+  18: {
+    name: 'Medicinal:Moringa-Oleifera',
+    id: 18,
+  },
+  19: {
+    name: 'Medicinal:Muntingia-Calabura',
+    id: 19,
+  },
+  20: {
+    name: 'Medicinal:Murraya-Koenigii',
+    id: 20,
+  },
+  21: {
+    name: 'Medicinal:Nerium-Oleander',
+    id: 21,
+  },
+  22: {
+    name: 'Medicinal:Nyctanthes-Arbor-tristis',
+    id: 22,
+  },
+  23: {
+    name: 'Medicinal:Ocimum-Tenuiflorum',
+    id: 23,
+  },
+  24: {
+    name: 'Medicinal:Piper-Betle',
+    id: 24,
+  },
+  25: {
+    name: 'Medicinal:Plectranthus-Amboinicus',
+    id: 25,
+  },
+  26: {
+    name: 'Medicinal:Pongamia-Pinnata',
+    id: 26,
+  },
+  27: {
+    name: 'Medicinal:Psidium-Guajava',
+    id: 27,
+  },
+  28: {
+    name: 'Medicinal:Punica-Granatum',
+    id: 28,
+  },
+  29: {
+    name: 'Medicinal:Santalum-Album',
+    id: 29,
+  },
+  30: {
+    name: 'Medicinal:Syzygium-Cumini',
+    id: 30,
+  },
+  31: {
+    name: 'Medicinal:Syzygium-Jambos',
+    id: 31,
+  },
+  32: {
+    name: 'Medicinal:Tabernaemontana-Divaricata',
+    id: 32,
+  },
+  33: {
+    name: 'Medicinal:Trigonella-Foenum-graecum',
+    id: 33,
+  },
+}
 
 const dummyData = Leaves;
 
@@ -31,10 +166,38 @@ export default function HomePage() {
   const [imgSrc, setImgSrc] = useState(null);
   //const webcamRef = useRef(null);
   let videoRef = createRef()
+  let canvasRef = createRef();
   console.log(Leaves)
 
+  function buildDetectedObjects(scores, threshold, boxes, classes, classesDir) {
+    const detectionObjects = []
+    var video_frame = document.getElementById('frame');
+
+    scores[0].forEach((score, i) => {
+      if (score > threshold) {
+        const bbox = [];
+        const minY = boxes[0][i][0] * video_frame.offsetHeight;
+        const minX = boxes[0][i][1] * video_frame.offsetWidth;
+        const maxY = boxes[0][i][2] * video_frame.offsetHeight;
+        const maxX = boxes[0][i][3] * video_frame.offsetWidth;
+        bbox[0] = minX;
+        bbox[1] = minY;
+        bbox[2] = maxX - minX;
+        bbox[3] = maxY - minY;
+
+        detectionObjects.push({
+          class: classes[i],
+          label: classesDir[classes[i]].name,
+          score: score.toFixed(4),
+          bbox: bbox
+        })
+      }
+    })
+    return detectionObjects
+  }
+
   const renderPredictions = predictions => {
-    const ctx = this.canvasRef.current.getContext("2d");
+    const ctx = canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
     // Font options.
@@ -43,10 +206,10 @@ export default function HomePage() {
     ctx.textBaseline = "top";
 
     //Getting predictions
-    const boxes = predictions[4].arraySync();
-    const scores = predictions[5].arraySync();
-    const classes = predictions[6].dataSync();
-    const detections = this.buildDetectedObjects(scores, threshold,
+    const boxes = predictions[0].arraySync();
+    const scores = predictions[3].arraySync();
+    const classes = predictions[1].dataSync();
+    const detections = buildDetectedObjects(scores, threshold,
                                     boxes, classes, classesDir);
 
     detections.forEach(item => {
@@ -54,7 +217,9 @@ export default function HomePage() {
       const y = item['bbox'][1];
       const width = item['bbox'][2];
       const height = item['bbox'][3];
-
+      
+      console.log("" + width + " " + height)
+      console.log(x + " " + y)
       // Draw the bounding box.
       ctx.strokeStyle = "#00FFFF";
       ctx.lineWidth = 4;
@@ -167,14 +332,22 @@ export default function HomePage() {
   return(
     <Grid container alignItems="center">
       <Grid item xs container direction="row" justify="space-around">
-        <Paper elevation={3} style={{maxWidth: "45vw", minHeight: "90vh"}}>
+        <Paper elevation={3} style={{minWidth: "45vw", minHeight: "90vh"}}>
           <video
             autoPlay
             muted
             ref={videoRef}
-            width="1280px"
-            height="720px"
-            style={{maxWidth: "45vw", minHeight: "90vh"}}
+            position = "absolute"
+            width= {600}
+            height = {600}
+            id="frame"
+            style={{maxWidth: 600, maxHeight: 600 , minWidth: 600, minHeight: 600, top: 0, left: 0}}
+          />
+          <canvas
+            ref={canvasRef}
+            width={600}
+            height={600}
+            style={{position: "absolute", top: 0, left: 340, backgroundColor: "rgba(255,0,0,0.5)"}}
           />
           <Grid item>
             <Button style={{padding: 20}} onClick={handleButtonPress} onKeyPress={handleKeypress}>Take Picture</Button>
