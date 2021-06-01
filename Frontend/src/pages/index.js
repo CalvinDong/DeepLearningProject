@@ -170,6 +170,7 @@ export default function HomePage() {
   console.log(Leaves)
 
   function buildDetectedObjects(scores, threshold, boxes, classes, classesDir) {
+    let allow = true;
     const detectionObjects = []
     var video_frame = document.getElementById('frame');
 
@@ -185,12 +186,16 @@ export default function HomePage() {
         bbox[2] = maxX - minX;
         bbox[3] = maxY - minY;
 
-        detectionObjects.push({
-          class: classes[i],
-          label: classesDir[classes[i]].name,
-          score: score.toFixed(4),
-          bbox: bbox
-        })
+        if (allow){
+          detectionObjects.push({
+            class: classes[i],
+            label: classesDir[classes[i]].name,
+            score: score.toFixed(4),
+            bbox: bbox
+          })
+          allow = false
+        }
+        
       }
     })
     return detectionObjects
