@@ -24,7 +24,6 @@ export default function InfoCard(props){
   }
 
   function LeafDesc(){
-    console.log("yoooo")
     return (
       <>
         <h1 style={{color: "#4CAF50"}}> {description.name} </h1>

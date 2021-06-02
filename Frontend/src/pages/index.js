@@ -5,6 +5,7 @@ import { Grid, Card } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper';
 import InfoCard from "../components/InfoCard.js"
 import Leaves from "../leaves.json"
+import Medicinal from "../document.json"
 
 import * as tf from '@tensorflow/tfjs';
 import {loadGraphModel} from '@tensorflow/tfjs-converter';
@@ -16,135 +17,135 @@ const threshold = 0.2;
 
 let classesDir = {
   1: {
-      name: 'Medicinal:Alpinia-Galanga',
+      name: 'Alpinia-Galanga',
       id: 1,
   },
   2: {
-      name: 'Medicinal:Amaranthus-Viridis',
+      name: 'Amaranthus-Viridis',
       id: 2,
   },
   3: {
-    name: 'Non-Medicinal:Areca-Palm',
+    name: 'Areca-Palm',
     id: 3,
   },
   4: {
-    name: 'Medicinal:Artocarpus-Heterophyllus',
+    name: 'Artocarpus-Heterophyllus',
     id: 4,
   },
   5: {
-    name: 'Medicinal:Azadirachta-Indica',
+    name: 'Azadirachta-Indica',
     id: 5,
   },
   6: {
-    name: 'Medicinal:Basella-Alba',
+    name: 'Basella-Alba',
     id: 6,
   },
   7: {
-    name: 'Non-Medicinal:Bonsai',
+    name: 'Bonsai',
     id: 7,
   },
   8: {
-    name: 'Medicinal:Brassica-Juncea',
+    name: 'Brassica-Juncea',
     id: 8,
   },
   9: {
-    name: 'Medicinal:Carissa-Carandas',
+    name: 'Carissa-Carandas',
     id: 9,
   },
   10: {
-    name: 'Medicinal:Citrus-Limon',
+    name: 'Citrus-Limon',
     id: 10,
   },
   11: {
-    name: 'Medicinal:Eucalyptus',
+    name: 'Eucalyptus',
     id: 11,
   },
   12: {
-    name: 'Medicinal:Ficus-Auriculata',
+    name: 'Ficus-Auriculata',
     id: 12,
   },
   13: {
-    name: 'Medicinal:Ficus-Religiosa',
+    name: 'Ficus-Religiosa',
     id: 13,
   },
   14: {
-    name: 'Medicinal:Hibiscus-Rosa-sinensis',
+    name: 'Hibiscus-Rosa-sinensis',
     id: 14,
   },
   15: {
-    name: 'Medicinal:Jasminum',
+    name: 'Jasminum',
     id: 15,
   },
   16: {
-    name: 'Medicinal:Mangifera-Indica',
+    name: 'Mangifera-Indica',
     id: 16,
   },
   17: {
-    name: 'Medicinal:Mentha',
+    name: 'Mentha',
     id: 17,
   },
   18: {
-    name: 'Medicinal:Moringa-Oleifera',
+    name: 'Moringa-Oleifera',
     id: 18,
   },
   19: {
-    name: 'Medicinal:Muntingia-Calabura',
+    name: 'Muntingia-Calabura',
     id: 19,
   },
   20: {
-    name: 'Medicinal:Murraya-Koenigii',
+    name: 'Murraya-Koenigii',
     id: 20,
   },
   21: {
-    name: 'Medicinal:Nerium-Oleander',
+    name: 'Nerium-Oleander',
     id: 21,
   },
   22: {
-    name: 'Medicinal:Nyctanthes-Arbor-tristis',
+    name: 'Nyctanthes-Arbor-tristis',
     id: 22,
   },
   23: {
-    name: 'Medicinal:Ocimum-Tenuiflorum',
+    name: 'Ocimum-Tenuiflorum',
     id: 23,
   },
   24: {
-    name: 'Medicinal:Piper-Betle',
+    name: 'Piper-Betle',
     id: 24,
   },
   25: {
-    name: 'Medicinal:Plectranthus-Amboinicus',
+    name: 'Plectranthus-Amboinicus',
     id: 25,
   },
   26: {
-    name: 'Medicinal:Pongamia-Pinnata',
+    name: 'Pongamia-Pinnata',
     id: 26,
   },
   27: {
-    name: 'Medicinal:Psidium-Guajava',
+    name: 'Psidium-Guajava',
     id: 27,
   },
   28: {
-    name: 'Medicinal:Punica-Granatum',
+    name: 'Punica-Granatum',
     id: 28,
   },
   29: {
-    name: 'Medicinal:Santalum-Album',
+    name: 'Santalum-Album',
     id: 29,
   },
   30: {
-    name: 'Medicinal:Syzygium-Cumini',
+    name: 'Syzygium-Cumini',
     id: 30,
   },
   31: {
-    name: 'Medicinal:Syzygium-Jambos',
+    name: 'Syzygium-Jambos',
     id: 31,
   },
   32: {
-    name: 'Medicinal:Tabernaemontana-Divaricata',
+    name: 'Tabernaemontana-Divaricata',
     id: 32,
   },
   33: {
-    name: 'Medicinal:Trigonella-Foenum-graecum',
+    name: 'Trigonella-Foenum-graecum',
     id: 33,
   },
 }
@@ -167,7 +168,6 @@ export default function HomePage() {
   //const webcamRef = useRef(null);
   let videoRef = createRef()
   let canvasRef = createRef();
-  console.log(Leaves)
 
   function buildDetectedObjects(scores, threshold, boxes, classes, classesDir) {
     let allow = true;
@@ -187,13 +187,20 @@ export default function HomePage() {
         bbox[3] = maxY - minY;
 
         if (allow){
+          let leafName = classesDir[classes[i]].name
           detectionObjects.push({
             class: classes[i],
-            label: classesDir[classes[i]].name,
+            label: leafName,
             score: score.toFixed(4),
             bbox: bbox
           })
           allow = false
+          Medicinal.Medicinal.forEach(obj => {
+            if (obj.name === leafName){
+              setDescriptionState(obj)
+            }
+          })
+          //setDescriptionState()
         }
         
       }
@@ -223,8 +230,6 @@ export default function HomePage() {
       const width = item['bbox'][2];
       const height = item['bbox'][3];
       
-      console.log("" + width + " " + height)
-      console.log(x + " " + y)
       // Draw the bounding box.
       ctx.strokeStyle = "#00FFFF";
       ctx.lineWidth = 4;
@@ -254,20 +259,20 @@ export default function HomePage() {
   };
 
   let detectFrame = (video, model) => {
-		tf.engine().startScope();
-		model.executeAsync(process_input(video)).then(predictions => {
-		renderPredictions(predictions, video);
-    console.log("detect frame")
-		requestAnimationFrame(() => {
-		  detectFrame(video, model);
-		});
-		tf.engine().endScope();
-	  });
+    if (canvasRef.current){
+      tf.engine().startScope();
+      model.executeAsync(process_input(video)).then(predictions => {
+      renderPredictions(predictions, video);
+      requestAnimationFrame(() => {
+        detectFrame(video, model);
+      });
+      tf.engine().endScope();
+      });
+    }
 	};
 
   useEffect(() => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      console.log("getting stream")
       const webCamPromise = navigator.mediaDevices
         .getUserMedia({
           audio: false,
@@ -275,7 +280,7 @@ export default function HomePage() {
         })
         .then(stream => {
           if (videoRef.current != null) {
-            window.stream = stream;
+            //window.stream = stream;
             videoRef.current.srcObject = stream;
             return new Promise((resolve, reject) => {
               videoRef.current.onloadedmetadata = () => {
@@ -343,10 +348,10 @@ export default function HomePage() {
             muted
             ref={videoRef}
             position = "absolute"
-            width= {600}
-            height = {600}
+            width= "600"
+            height = "600"
             id="frame"
-            style={{maxWidth: 600, maxHeight: 600 , minWidth: 600, minHeight: 600, top: 0, left: 0}}
+            style={{width:"600px", height: "600px", top: 0, left: 0}}
           />
           <canvas
             ref={canvasRef}
@@ -354,9 +359,6 @@ export default function HomePage() {
             height={600}
             style={{position: "absolute", top: 0, left: 340, backgroundColor: "rgba(255,0,0,0.5)"}}
           />
-          <Grid item>
-            <Button style={{padding: 20}} onClick={handleButtonPress} onKeyPress={handleKeypress}>Take Picture</Button>
-          </Grid>
         </Paper>
       </Grid>
       <Grid item xs>
