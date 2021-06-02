@@ -4,8 +4,7 @@ import { Button, Placeholder } from 'rsuite';
 import { Grid, Card } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper';
 import InfoCard from "../components/InfoCard.js"
-import Leaves from "../leaves.json"
-import Medicinal from "../document.json"
+import Medicinal from "../leaves.json"
 
 import * as tf from '@tensorflow/tfjs';
 import {loadGraphModel} from '@tensorflow/tfjs-converter';
@@ -150,8 +149,6 @@ let classesDir = {
   },
 }
 
-const dummyData = Leaves;
-
 async function load_model() {
   // It's possible to load the model locally or from a repo
   // You can choose whatever IP and PORT you want in the "http://127.0.0.1:8080/model.json" just set it before in your https server
@@ -161,11 +158,7 @@ async function load_model() {
 }
 
 export default function HomePage() {
-  const [showState, setShowState] = useState(true);
-  const [leafState, useLeafState] = useState(null);
   const [description, setDescriptionState] = useState(null)
-  const [imgSrc, setImgSrc] = useState(null);
-  //const webcamRef = useRef(null);
   let videoRef = createRef()
   let canvasRef = createRef();
 
@@ -302,32 +295,6 @@ export default function HomePage() {
         });
     }
   })
-
-  const sendData = async (imageSrc) => {
-    const res = await axios.post(`${BACKEND}/posty`, {dta: imageSrc})
-    setDescriptionState(res.data)
-    console.log(res)
-    // Send data here, then set leafState to data
-  }
-
-
-  const handleButtonPress = () => {
-    console.log("shit")
-  }
-  
-  const handleKeypress = (e) => {
-    if (e.keyCode === 13) {
-      handleButtonPress();
-    }
-  }
-
-  const close = () => {
-    setShowState(false);
-  }
-
-  const open = () =>{
-    setShowState(true);
-  }
 
   return(
     <Grid container alignItems="center">
