@@ -303,16 +303,6 @@ export default function HomePage() {
     }
   })
 
-  
-
-  /*const capture = React.useCallback(() => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    setImgSrc(imageSrc);
-    console.log(imageSrc)
-    console.log(imgSrc)
-    sendData(imageSrc)
-  }, [webcamRef, setImgSrc]);*/
-
   const sendData = async (imageSrc) => {
     const res = await axios.post(`${BACKEND}/posty`, {dta: imageSrc})
     setDescriptionState(res.data)
@@ -342,7 +332,7 @@ export default function HomePage() {
   return(
     <Grid container alignItems="center">
       <Grid item xs container direction="row" justify="space-around">
-        <Paper elevation={3} style={{minWidth: "45vw", minHeight: "90vh"}}>
+        <Paper elevation={3} style={{minWidth: "45vw", minHeight: "90vh",}}>
           <video
             autoPlay
             muted
@@ -357,7 +347,8 @@ export default function HomePage() {
             ref={canvasRef}
             width={600}
             height={600}
-            style={{position: "absolute", top: 0, left: 340, backgroundColor: "rgba(255,0,0,0.5)"}}
+            style={{position: "absolute", top: 0, left: 340}}
+            //style={{position: "absolute", top: 0, left: 340, backgroundColor: "rgba(255,0,0,0.5)"}}
           />
         </Paper>
       </Grid>
