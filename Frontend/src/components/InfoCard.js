@@ -16,9 +16,6 @@ export default function InfoCard(props){
       <Paragraph style={{}}rows={0} style={{ padding: 30 }} graph="image" />
       <Paragraph rows={5} style={{ padding: 30 }}/>
       <Paragraph rows={5} style={{ padding: 30 }}/>
-      <Paragraph rows={5} style={{ padding: 30 }}/>
-      <Paragraph rows={5} style={{ padding: 30 }}/>
-      <Paragraph style={{ padding: 30, paddingTop: 30 }}/>
       </>
     )
   }
