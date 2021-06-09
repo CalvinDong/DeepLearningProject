@@ -298,7 +298,7 @@ export default function HomePage() {
 
   return(
     <Grid container justify="space-evenly" direction="row" alignItems="center">
-      <Grid item alignItems="center" style={{backgroundColor: "rgba(255,0,0,0.5)", paddingTop: "20vh"}}>
+      <Grid item alignItems="center" style={{paddingTop: "20vh"}}>
         <Paper elevation={3} style={{minWidth: "45vw", minHeight: "50vh"}}>
           <video
             autoPlay
@@ -314,13 +314,13 @@ export default function HomePage() {
             ref={canvasRef}
             width={600}
             height={600}
-            //style={{position: "absolute", top: 0, left: 340}}
-            style={{position: "absolute", top: "20vh", left: 361, backgroundColor: "rgba(255,0,0,0.5)"}}
+            //style={{position: "absolute", top: 0, left: 196}}
+            style={{position: "absolute", top: "20vh", left: 196, backgroundColor: "rgba(255,0,0,0.5)"}}
           />
         </Paper>
       </Grid>
-      <Grid item style={{backgroundColor: "rgba(255,0,0,0.5)", paddingTop: "20vh"}}>
-        <Paper elevation ={3} style={{minWidth: "45vw", minHeight: "50vh"}}>
+      <Grid item style={{paddingTop: "20vh"}}>
+        <Paper elevation ={3} style={{minWidth: "45vw", minHeight: "50vh", maxWidth: "45vw"}}>
           <InfoCard description={description} />
         </Paper>
       </Grid>
