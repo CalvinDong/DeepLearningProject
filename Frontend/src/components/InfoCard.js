@@ -11,14 +11,10 @@ export default function InfoCard(props){
   function PlaceholderPara(){
     return (
       <>
-      <h1 style={{color: "#4CAF50"}}> Leaf Name :) </h1>
-      <div style={{justifyContent: "center"}}/>
+      <h1 style={{color: "#4CAF50"}}> Please Present Leaf to Camera </h1>
       <Paragraph style={{}}rows={0} style={{ padding: 30 }} graph="image" />
       <Paragraph rows={5} style={{ padding: 30 }}/>
       <Paragraph rows={5} style={{ padding: 30 }}/>
-      <Paragraph rows={5} style={{ padding: 30 }}/>
-      <Paragraph rows={5} style={{ padding: 30 }}/>
-      <Paragraph style={{ padding: 30, paddingTop: 30 }}/>
       </>
     )
   }
@@ -28,9 +24,13 @@ export default function InfoCard(props){
       <>
         <h1 style={{color: "#4CAF50"}}> {description.name} </h1>
         <img src={description.image} style={{maxWidth: "20vw", maxHeight: "20vh"}}></img>
-        <div style={{justifyContent: "center"}}/>
+        {description.medicinal
+        ? <Typography>Medicinal</Typography>
+        : <Typography>Non - Medicinal</Typography>
+        }
+        <p></p>
+        <p></p>
         <Typography>{description.description}</Typography>
-        <Typography>{description.medicinal_properties}</Typography>
       </>
     )
   }

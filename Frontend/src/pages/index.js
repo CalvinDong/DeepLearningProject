@@ -153,7 +153,7 @@ async function load_model() {
   // It's possible to load the model locally or from a repo
   // You can choose whatever IP and PORT you want in the "http://127.0.0.1:8080/model.json" just set it before in your https server
   //const model = await loadGraphModel("http://127.0.0.1:8080/model.json");
-  const model = await loadGraphModel("http://127.0.0.1:8080/ssd_js/model.json");
+  const model = await loadGraphModel("http://127.0.0.1:8080/model.json");
   return model;
 }
 
@@ -297,9 +297,9 @@ export default function HomePage() {
   })
 
   return(
-    <Grid container alignItems="center">
-      <Grid item xs container direction="row" justify="space-around">
-        <Paper elevation={3} style={{minWidth: "45vw", minHeight: "90vh",}}>
+    <Grid container justify="space-evenly" direction="row" alignItems="center">
+      <Grid item alignItems="center" style={{paddingTop: "20vh"}}>
+        <Paper elevation={3} style={{minWidth: "45vw", minHeight: "50vh"}}>
           <video
             autoPlay
             muted
@@ -314,13 +314,13 @@ export default function HomePage() {
             ref={canvasRef}
             width={600}
             height={600}
-            style={{position: "absolute", top: 0, left: 340}}
-            //style={{position: "absolute", top: 0, left: 340, backgroundColor: "rgba(255,0,0,0.5)"}}
+            style={{position: "absolute", top: "20vh", left: 196}}
+            //style={{position: "absolute", top: "20vh", left: 196, backgroundColor: "rgba(255,0,0,0.5)"}}
           />
         </Paper>
       </Grid>
-      <Grid item xs>
-        <Paper elevation ={3} style={{maxWidth: "45vw",  minHeight: "90vh", paddingTop: 30 }}>
+      <Grid item style={{paddingTop: "20vh"}}>
+        <Paper elevation ={3} style={{minWidth: "45vw", minHeight: "50vh", maxWidth: "45vw"}}>
           <InfoCard description={description} />
         </Paper>
       </Grid>
