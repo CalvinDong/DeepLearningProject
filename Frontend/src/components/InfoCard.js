@@ -24,6 +24,12 @@ export default function InfoCard(props){
       <>
         <h1 style={{color: "#4CAF50"}}> {description.name} </h1>
         <img src={description.image} style={{maxWidth: "20vw", maxHeight: "20vh"}}></img>
+        {description.medicinal
+        ? <Typography>Medicinal</Typography>
+        : <Typography>Non - Medicinal</Typography>
+        }
+        <p></p>
+        <p></p>
         <Typography>{description.description}</Typography>
       </>
     )

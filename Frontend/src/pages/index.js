@@ -314,8 +314,8 @@ export default function HomePage() {
             ref={canvasRef}
             width={600}
             height={600}
-            //style={{position: "absolute", top: 0, left: 196}}
-            style={{position: "absolute", top: "20vh", left: 196, backgroundColor: "rgba(255,0,0,0.5)"}}
+            style={{position: "absolute", top: "20vh", left: 196}}
+            //style={{position: "absolute", top: "20vh", left: 196, backgroundColor: "rgba(255,0,0,0.5)"}}
           />
         </Paper>
       </Grid>
